@@ -1,4 +1,4 @@
-(* Anthony Geourjon & __
+(* Anthony Geourjon 
    Polytech RICM3 Gr.2
 
    Compte-rendu TP4 OCaml (Pile, file, rang) 
@@ -170,6 +170,9 @@ let teste_file (l : int list) : bool =
   
 teste_file maListe;;
 
+
+
+
 (* Exercice 57 *)
 
 let rec decoupe ( pivot : 'a)( l : 'a list ) : 'a list * 'a list =
@@ -187,23 +190,76 @@ let rec tri_rapide (l : 'a list) : 'a list =
   | e::fin -> let (a,b) = (decoupe e fin) in
 	      (tri_rapide a) @ [e] @ (tri_rapide b);;
 
-let rec getIemeElement ( i : int ) ( l : 'a list ) : 'a =
+let rec n_eme_element ( i : int ) ( l : 'a list ) : 'a =
   let t::reste = l in
 		match i with
   	| 0 -> t
-		| x -> getIemeElement (x-1) reste;;
+		| x -> n_eme_element (x-1) reste;;
   
 
 let rang ( rang : int )(l : 'a list) : 'a =
   let listeTriee = (tri_rapide l) in
-	getIemeElement rang listeTriee;; 
+	n_eme_element rang listeTriee;; 
   
 	
 rang 5 maListeAleatoire;;	
 rang 20 maListeAleatoire;;	
 
+(* Exercice 58 *)
+
+let rec longueur l = match l with
+  | [] -> 0
+  | x::reste -> 1 + (longueur reste);;
+  
+
+let median ( l : 'a list) : 'a =
+	let longueurListe = (longueur l) in
+	let rangMedian =  int_of_float (ceil (float_of_int longueurListe)/. 2.) in
+	rang rangMedian l;;
+
+median maListeAleatoire;;
+
+(* Exercice 59 *)
+let median_naif ( l : 'a list) : 'a =
+	let longueurListe = (longueur l) in
+	let rangMedian =  int_of_float (ceil (float_of_int longueurListe)/. 2.) in
+	n_eme_element rangMedian l;;
+	
+median_naif maListeAleatoire;;	
+
+(* Exercice 60 *)
+
+let rec sub_paquets ( l : 'a list ) ( n : int ) : 'a list * 'a list =
+	match (l,n) with
+	| ([],x) -> ([],[])
+	| (l,0) ->  (l, [])
+	| (t::reste,x) -> let (listeRestante, paquetCourant) = (sub_paquets reste (x-1)) in 
+										(listeRestante, t::paquetCourant);;
+
+let rec paquets ( l : 'a list ) ( n : int ) : 'a list list =
+	let (listeRestante,paquet) = (sub_paquets l n) in
+	match listeRestante with 
+	| [] -> paquet::[]
+	| x -> paquet::(paquets listeRestante n);;
+
+paquets maListeAleatoire 8;;
+
+(* Exercice 61 *)
 
 
+let rec sub_liste_medians (l : 'a list) : 'a list =
+	match l with
+	| [] -> []
+	| t::reste -> (median t)::(sub_liste_medians reste);;
+
+(* Ne fonctionne erreur de type à l'interprétation *) 
+let liste_medians ( l : 'a list )( n : int ): 'a list =
+	let liste_paquets = (paquets l n) in
+	sub_liste_medians liste_paquets;;
+	 
+	
+	
+	
 
 
 
