@@ -1,4 +1,4 @@
-(** Affichage. *)
+tree(** Affichage. *)
 
 (** Afficher une fenêtre. *)
 val draw : string -> Geo.surface list -> unit

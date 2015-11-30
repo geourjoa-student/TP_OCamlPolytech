@@ -1,7 +1,7 @@
-let pi = 4. /. atan 1.
+let pi = 4. *. atan 1.
 
 (** Point ou vecteur. *)
-type point = { x : float; y : float; }
+type point = { x : float; y : float }
 
 
 (** Surface. *)
