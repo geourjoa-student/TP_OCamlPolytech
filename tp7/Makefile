@@ -3,7 +3,7 @@ INCLUDES=-I +lablGL
 LABLGLCMAS=lablgl.cma lablglut.cma unix.cma
 
 # BUILD RULES
-all: testdessin koch
+all: testdessin koch peano
 
 # Les règles pour compiler koch puis les autres fractales sont à rajouter
 
@@ -30,5 +30,10 @@ koch : koch.cmo geo.cmo aff.cmo
 koch.cmo : koch.ml aff.cmo geo.cmo
 	ocamlc -c koch.ml
 
+peano : peano.cmo geo.cmo aff.cmo
+	ocamlc $(INCLUDES) $(LABLGLCMAS) geo.cmo aff.cmo peano.cmo -o peano
+
+peano.cmo : peano.ml aff.cmo geo.cmo
+	ocamlc -c peano.ml
 clean:
-	rm -f *.cmi *.cmo *~
+	rm -f *.cmi *.cmo *~ peano koch testdessin
