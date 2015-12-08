@@ -112,30 +112,29 @@ let rec rencontre ( l : personnage list ) : bool =
   | [] -> false
   | t::reste -> (est_dans_ce_lieu reste t.lieu) || (rencontre reste);;
   
-(* Fonction loin d'être optimal *)
+(* Fonction loin d'être optimiser*)
 
 
-let rec lieu_ou_il_y_a_2_personnes ( l : personnage list ) ( lieu : lieu ) : lieu option =
-    match l with
-    | [] -> None
-    | t::reste -> if t.lieu=lieu then
-		    lieu
-		  else
-		    (lieu_ou_il_y_a_2_personnes reste lieu);;
+
   
   
 let rec rencontre2 ( l : personnage list ) : lieu option =
+  let rec lieu_ou_il_y_a_2_personnes ( l : personnage list ) ( lieu : lieu ) : lieu option =
+    match l with
+    | [] -> None
+    | t::reste -> if t.lieu=lieu then
+		    Some lieu
+		  else
+		    (lieu_ou_il_y_a_2_personnes reste lieu)
+  in
   match l with
   | [] -> None
   | t::reste -> let r = (lieu_ou_il_y_a_2_personnes reste t.lieu) in            
 		if r != None then
 		   r
 		else
-		  rencontre2 reste;;
+		  (rencontre2 reste);;
 
-  (* Ne fonctionne *)
 
-(* Déroulement *)
-
-   
+ 
   
